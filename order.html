@@ -38,7 +38,7 @@
     </section>
 
     <!-- FORM -->
-    <form class="order-form" onsubmit="return submitForm();">
+    <form class="order-form" method="post">
         <div class="row">
             <div class="col-70">
                 <div class="container-biodata">
@@ -79,26 +79,38 @@
             </div>
         </div>
         <div class="col-30">
-            <div class="container">
-                <h4 class="required">Produk</h4> 
-                <input type="text" name="produk" id="produk" placeholder="Apel" readonly required>        
-                <div class="row">
-                    <div class="col-30">
-                        <label class="required" for="jumlah">Jumlah</label> 
-                        <input type="text" name="jumlah" id="form-jumlah" placeholder="100" required>        
-                    </div>
-                    <div class="col-30">
-                        <label class="required" for="satuan">Satuan</label>
-                        <select id="satuan" name="satuan" form="satuanform" required>
-                            <option value="" disabled selected>Pilih</option>
-                            <option value="kg">kg</option>
-                           <option value="gr">gr</option>
-                            <option value="pcs">pcs</option>
-                        </select>
+            <div class="container"><br>
+                <div class="first-product">
+                    <label class="required" for="produk">Produk</label> 
+                    <select name="produk" class="produk-dropdown" id="produkDropdown" required>
+                        <option value="" disabled selected>Pilih Produk</option>
+                    </select>
+                    <div class="item-row">
+                        <div class="col-30">
+                            <label class="required" for="jumlah">Jumlah</label> 
+                            <input type="text" name="jumlah" class="form-jumlah" placeholder="100" required>        
+                        </div>
+                        <div class="col-30">
+                            <label class="required" for="satuan">Satuan</label>
+                            <select name="satuan" id="satuanId" required>
+                                <option value="" disabled selected>Pilih</option>
+                                <option value="kg">kg</option>
+                            <option value="gr">gr</option>
+                                <option value="pcs">pcs</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
+                <hr>
+                <div class="product-rows">
+                    <!-- Rows for ordering multiple products will be dynamically added here -->
+                </div>   
+                <div class="btn-container">
+                    <button type="button" class="btn-add" onclick="addProductRow()">Tambah</button>
+                    <button type="button" class="btn-remove" onclick="removeLastProductRow()">Hapus</button>    
+                </div>          
             </div> <br><br>
-            <div class="container">
+            <div class="container-info">
                 <h3>INFO</h3>
                 <hr>
                 <p>Detail pembayaran berupa total yang dibayarkan dan rekening tujuan akan dikirim oleh Admin Pasar Segar melalui Whatsapp.
@@ -120,7 +132,7 @@
                 </p>
             </div>
             <form class="newsletter-form">
-                <input type="email" class="newsletter-input" placeholder="Masukkan email Anda" required>
+                <input type="email" class="newsletter-input" placeholder="Masukkan email Anda">
                 <button type="submit" class="newsletter-button">Kirim</button>
             </form>
         </div>
