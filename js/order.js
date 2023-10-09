@@ -251,7 +251,6 @@ function summaryOrder() {
         return;
     }    
 
-    // Create a string with the form information
     const formInfo = `
         <h2>Order Summary</h2>
         <p><strong>Nama:</strong> ${name}</p>
@@ -265,7 +264,6 @@ function summaryOrder() {
         <hr>
     `;    
 
-    // Create a table for product details
     let productTable = '<table><thead><tr><th>Produk</th><th>Jumlah</th></tr></thead><tbody>';
 
     productInfo.forEach((product) => {
@@ -279,23 +277,22 @@ function summaryOrder() {
 
     productTable += '</tbody></table>';
 
-    // Combine form information and product table
+
     const modalContent = document.getElementById('modal-content');
     modalContent.innerHTML = formInfo + productTable;
 
-    // Add "Confirm" button to the modal content
     modalContent.innerHTML += `
         <br><br>
         <button class="btn-confirm">Konfirmasi</button>
         <button class="btn-cancel">Tutup</button>
     `;
 
-    // Display the modal after populating its content
+
     const modal = document.getElementById('orderModal');
     if (modal) {
         modal.style.display = 'block';
     }
-// Close modal when the "Tutup" button is clicked
+
     const closeModalButton = modalContent.querySelector(".btn-cancel");
     if (closeModalButton) {
         
@@ -311,12 +308,11 @@ buttonModal.addEventListener("click", function (event) {
     summaryOrder(event);
 });
 
-// Attach a click event listener to the document or a suitable parent element
+
 document.addEventListener('click', function (event) {
     const target = event.target;
 
     if (target.classList.contains('btn-confirm')) {
-        // Call the submitForm function when the button is clicked
         submitForm(event);
     }
 });

@@ -245,39 +245,36 @@ hr {
 .col-30 .btn-container {
     display: flex;
     justify-content: center;
-    margin-top: 20px; /* Add some top margin for spacing */
+    margin-top: 20px; 
 }
 
 .btn-add, .btn-confirm {
     padding: 10px 20px;
     border-radius: 10px;
     font-size: 16px;
-    background-color: #4CAF50; /* Green color for "Tambah" button */
+    background-color: #4CAF50;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.3s;
-    margin-right: 10px; /* Add some spacing between buttons */
+    margin-right: 10px; 
 }
 
-/* Hover effect for "Tambah" button */
 .btn-add:hover {
     background-color: #45a049;
     transform: scale(1.05);
 }
 
-/* Style the "Hapus" button */
 .btn-remove{
     padding: 10px 20px;
     border-radius: 10px;
     font-size: 16px;
-    background-color: #FF5722; /* Red color for "Hapus" button */
+    background-color: #FF5722;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.3s;
     display: none;
 }
 
-/* Hover effect for "Hapus" button */
 .btn-remove:hover, .btn-cancel:hover {
     background-color: #ff6666;
     transform: scale(1.05);
@@ -285,24 +282,24 @@ hr {
 
 /* CSS - MODAL */
 .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1000; /* Sit on top of everything */
+    display: none; 
+    position: fixed; 
+    z-index: 1000; 
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+    overflow: auto; 
+    background-color: rgba(0, 0, 0, 0.5); 
 }
 
 .modal-content {
     background-color: #ffffff;
-    margin: 15% auto; /* 15% from the top and centered horizontally */
+    margin: 15% auto; 
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 60%; /* Could be adjusted based on your design */
+    width: 60%; 
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     text-align: center;
     font-family: "Poppins";
@@ -312,7 +309,7 @@ hr {
     padding: 10px 20px;
     border-radius: 10px;
     font-size: 16px;
-    background-color: #FF5722; /* Red color for "Hapus" button */
+    background-color: #FF5722; 
     border: none;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.3s;
@@ -323,7 +320,7 @@ table {
     width: 100%;
 }
 
-/* Style for table headers */
+
 th {
     border: 1px solid #dddddd;
     text-align: left;
@@ -331,7 +328,7 @@ th {
     background-color: #f2f2f2;
 }
 
-/* Style for table cells */
+
 td {
     border: 1px solid #dddddd;
     text-align: left;
