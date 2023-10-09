@@ -183,8 +183,6 @@ function confirmationForm() {
 async function submitForm(event) {
     event.preventDefault();
 
-    console.log("Sending POST request to the backend...");
-
     // Membuat const untuk select input
     const satuanSelect = document.getElementById("satuanId");
 
@@ -234,8 +232,6 @@ async function submitForm(event) {
                 body: JSON.stringify(orderData),
             });
 
-            console.log("POST request completed.");
-
             const responseData = await response.json();
 
             if (responseData.success) {
@@ -258,6 +254,5 @@ async function submitForm(event) {
 
 const orderForm = document.querySelector(".order-form");
 orderForm.addEventListener("submit", function (event) {
-    console.log("Form submit button clicked.");
     submitForm(event);
 });
