@@ -164,95 +164,159 @@ function collectProductInfo() {
     return productInfo;
 }
 
-
-// Mendefinisikan function untuk menampilkan pesan konfirmasi ketika submit
-function confirmationForm() {
-    // Membuat const untuk menampilkan pesan konfirmasi
-    const confirmation = confirm("Apakah Anda yakin untuk menyimpan formulir ini?");
-
-    // Jika klik 'OK'
-    if (confirmation) {
-        return true; // melakukan submit form
-    } else {
-        // Jika klik 'cancel', return false untuk tidak submit form
-        return false;
-    }
-}
-
 // Mendefinisikan function untuk submit form
 async function submitForm(event) {
     event.preventDefault();
+    // mengumpulkan data order
+    const name = document.getElementById("form-nama").value;
+    const address = document.getElementById("form-alamat").value;
+    const phone = document.getElementById("form-notelp").value;
+    const email = document.getElementById("form-email").value;
+    const province = document.getElementById("form-prov").value;
+    const city = document.getElementById("form-kota").value;
+    const district = document.getElementById("form-kecamatan").value;
+    const postalcode = document.getElementById("form-kpos").value;
+    const productInfo = collectProductInfo();
 
-    // Membuat const untuk select input
-    const satuanSelect = document.getElementById("satuanId");
+    // disimpan di order data
+    const orderData = {
+        name,
+        address,
+        phone,
+        email,
+        province,
+        city,
+        district,
+        postalcode,
+        products: productInfo,
+    };
 
-    // Menambahkan event listener untuk select element
-    satuanSelect.addEventListener('change', function () {
-        satuanSelect.setCustomValidity(''); // Reset pesan validasinya saat select diubah
-    });
+    try {
+        // membuat POST request orderData ke backend API
+        const response = await fetch('https://be-semarang-8-production.up.railway.app/api/order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(orderData),
+        });
 
-    if (satuanSelect.value === "") { // Jika belum memilih satuan
-        satuanSelect.setCustomValidity('Please select an item in the list.'); // Pesan custom untuk select yang belum dipilih
-        satuanSelect.reportValidity(); // Menampilkan pesan validasi secara langsung
-        return false; // Prevent form submission
-    }
+        const responseData = await response.json();
 
-    if (confirmationForm()) { //jika memilih konfirmasi
-        // mengumpulkan data order
-        const name = document.getElementById("form-nama").value;
-        const address = document.getElementById("form-alamat").value;
-        const phone = document.getElementById("form-notelp").value;
-        const email = document.getElementById("form-email").value;
-        const province = document.getElementById("form-prov").value;
-        const city = document.getElementById("form-kota").value;
-        const district = document.getElementById("form-kecamatan").value;
-        const postalcode = document.getElementById("form-kpos").value;
-        const productInfo = collectProductInfo();
-
-        // disimpan di order data
-        const orderData = {
-            name,
-            address,
-            phone,
-            email,
-            province,
-            city,
-            district,
-            postalcode,
-            products: productInfo,
-        };
-
-        try {
-            // membuat POST request orderData ke backend API
-            const response = await fetch('https://be-semarang-8-production.up.railway.app/api/order', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(orderData),
-            });
-
-            const responseData = await response.json();
-
-            if (responseData.success) {
-                // Jika order berhasil
-                alert("Terima kasih telah membeli dari Pasar Segar");
-                location.reload(); 
-            } else {
-                alert("Gagal melakukan pemesanan. Silakan coba lagi.");
-                location.reload();
-            }
-        } catch (error) {
-            console.error(error);
+        if (responseData.success) {
+            // Jika order berhasil
+            alert("Terima kasih telah membeli dari Pasar Segar");
+            location.reload(); 
+        } else {
             alert("Gagal melakukan pemesanan. Silakan coba lagi.");
             location.reload();
         }
-    } else {
-        return false; // Jika belum konfirmasi, false submit form
+    } catch (error) {
+        console.error(error);
+        alert("Gagal melakukan pemesanan. Silakan coba lagi.");
+        location.reload();
+    }
+
+}
+
+function summaryOrder() {
+    const name = document.getElementById("form-nama").value;
+    const address = document.getElementById("form-alamat").value;
+    const phone = document.getElementById("form-notelp").value;
+    const email = document.getElementById("form-email").value;
+    const province = document.getElementById("form-prov").value;
+    const city = document.getElementById("form-kota").value;
+    const district = document.getElementById("form-kecamatan").value;
+    const postalcode = document.getElementById("form-kpos").value;
+    const productInfo = collectProductInfo();
+
+    if (
+        name === "" ||
+        address.value === "" ||
+        phone.trim() === "" ||
+        email.trim() === "" ||
+        province.trim() === "" ||
+        city.trim() === "" ||
+        district.trim() === "" ||
+        postalcode.trim() === "" ||
+        productInfo.some((fill) => {
+            return (
+                fill.productName.trim() === "" ||
+                fill.quantity.trim() === "" ||
+                fill.satuan.trim() === ""
+            );
+        })
+    ) {
+        alert("Please fill in all required fields.");
+        return;
+    }    
+
+    // Create a string with the form information
+    const formInfo = `
+        <h2>Order Summary</h2>
+        <p><strong>Nama:</strong> ${name}</p>
+        <p><strong>Alamat:</strong> ${address}</p>
+        <p><strong>No. Telepon:</strong> ${phone}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Provinsi:</strong> ${province}</p>
+        <p><strong>Kota:</strong> ${city}</p>
+        <p><strong>Kecamatan:</strong> ${district}</p>
+        <p><strong>Kode Pos:</strong> ${postalcode}</p>
+        <hr>
+    `;    
+
+    // Create a table for product details
+    let productTable = '<table><thead><tr><th>Produk</th><th>Jumlah</th></tr></thead><tbody>';
+
+    productInfo.forEach((product) => {
+        productTable += `
+            <tr>
+                <td>${product.productName}</td>
+                <td>${product.quantity} ${product.satuan}</td>
+            </tr>
+        `;
+    });
+
+    productTable += '</tbody></table>';
+
+    // Combine form information and product table
+    const modalContent = document.getElementById('modal-content');
+    modalContent.innerHTML = formInfo + productTable;
+
+    // Add "Confirm" button to the modal content
+    modalContent.innerHTML += `
+        <br><br>
+        <button class="btn-confirm">Konfirmasi</button>
+        <button class="btn-cancel">Tutup</button>
+    `;
+
+    // Display the modal after populating its content
+    const modal = document.getElementById('orderModal');
+    if (modal) {
+        modal.style.display = 'block';
+    }
+// Close modal when the "Tutup" button is clicked
+    const closeModalButton = modalContent.querySelector(".btn-cancel");
+    if (closeModalButton) {
+        
+        closeModalButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            modal.style.display = "none"; 
+        });
     }
 }
 
-const orderForm = document.querySelector(".order-form");
-orderForm.addEventListener("submit", function (event) {
-    submitForm(event);
+const buttonModal = document.querySelector(".order-form .btn");
+buttonModal.addEventListener("click", function (event) {
+    summaryOrder(event);
+});
+
+// Attach a click event listener to the document or a suitable parent element
+document.addEventListener('click', function (event) {
+    const target = event.target;
+
+    if (target.classList.contains('btn-confirm')) {
+        // Call the submitForm function when the button is clicked
+        submitForm(event);
+    }
 });
